@@ -11,7 +11,7 @@ var sessionParser = session({
     cookie: {
         maxAge: 10 * 60 * 1000
     },
-    resave: true,
+    resave: false,
     saveUninitialized: true
 });
 app.use(sessionParser);

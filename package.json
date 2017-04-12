@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/oscar60310/NodeJsClass4#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.1",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
     "http": "0.0.0",
