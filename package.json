@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/oscar60310/NodeJsClass4/issues"
   },
-  "homepage": "https://github.com/oscar60310/NodeJsClass4#readme"
+  "homepage": "https://github.com/oscar60310/NodeJsClass4#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "http": "0.0.0",
+    "request": "^2.81.0",
+    "url": "^0.11.0",
+    "ws": "^2.2.3"
+  }
 }
