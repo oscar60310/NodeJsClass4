@@ -39,8 +39,11 @@ function getUser(key) {
 app.use('/', express.static('static'));
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server, path: "/ws" });
-wss.on('connection', function connection(ws) {
+server.listen(port, function listening() {
+    console.log('Listening on %d', server.address().port);
+});
+//const wss = new WebSocket.Server({ server, path: "/ws" });
+/*wss.on('connection', function connection(ws) {
     sessionParser(ws.upgradeReq, {}, function () {
         ws.session = ws.upgradeReq.session;
     });
@@ -64,3 +67,4 @@ wss.on('connection', function connection(ws) {
 server.listen(port, function listening() {
     console.log('Listening on %d', server.address().port);
 });
+*/
