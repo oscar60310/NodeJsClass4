@@ -1,0 +1,25 @@
+{
+  "name": "nodejsclass4",
+  "version": "1.0.0",
+  "description": "msp node js class 4th",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscar60310/NodeJsClass4.git"
+  },
+  "keywords": [
+    "facebook",
+    "nodejs",
+    "msp",
+    "js"
+  ],
+  "author": "goofy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oscar60310/NodeJsClass4/issues"
+  },
+  "homepage": "https://github.com/oscar60310/NodeJsClass4#readme"
+}
