@@ -1,7 +1,7 @@
 var wsManager;
 function WsManager() {
     var self = this;
-    var ws = new WebSocket("ws://localhost:1337/ws");
+    var ws = new WebSocket("ws://" + window.location.host + "/ws");
     ws.onopen = function () {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
