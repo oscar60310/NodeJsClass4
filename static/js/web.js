@@ -2,13 +2,13 @@ var wsManager;
 function WsManager() {
     var self = this;
     var protocol = (window.location.protocol == "https:")? "wss://" : "ws://";
-    var ws = new WebSocket(protocol + window.location.host + "/ws");
-    ws.onopen = function () {
+    self.ws = new WebSocket(protocol + window.location.host + "/ws");
+    self.ws.onopen = function () {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
-        self.sendJson(ws, { type: "LOGIN" });
+        self.sendJson(self.ws, { type: "LOGIN" });
     };
-    ws.onmessage = function (evt) {
+    self.ws.onmessage = function (evt) {
         var msg = JSON.parse(evt.data);
         console.log(msg);
         /*  */
@@ -19,12 +19,12 @@ function WsManager() {
         }
 
     };
-    ws.onclose = function () {
+    self.ws.onclose = function () {
         // websocket is closed.
         console.log("ws closed.");
     };
     this.send = (data) => {
-        sendJson(ws, data);
+        sendJson(self.ws, data);
     }
     this.sendJson = (ws, msg) => {
         ws.send(JSON.stringify(msg));
