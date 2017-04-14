@@ -32,11 +32,11 @@ function WsManager() {
     this.sendJson = (ws, msg) => {
         ws.send(JSON.stringify(msg));
     }
-    loginStatus = (msg) => {
+    loginStatus = (msg, text, url) => {
         if (msg.status == "ok") {
-            setAlert(msg.name + "玩家，你好");
+            setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         } else {
-            setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家 FB登入</a>");
+            setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家FB登入</a>");
         }
     }
 }
