@@ -1,15 +1,25 @@
 var wsManager;
+<<<<<<< HEAD
 
 function WsManager() {
     var self = this;
     var protocol = (window.location.protocol == "https:") ? "wss://" : "ws://";
+=======
+function WsManager() {
+    var self = this;
+    var protocol = (window.location.protocol == "https:")? "wss://" : "ws://";
+>>>>>>> fb863bd35293593aa01ae2523960d24486aef686
     self.ws = new WebSocket(protocol + window.location.host + "/ws");
     self.ws.onopen = function () {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
+<<<<<<< HEAD
         self.sendJson(self.ws, {
             type: "LOGIN"
         });
+=======
+        self.sendJson(self.ws, { type: "LOGIN" });
+>>>>>>> fb863bd35293593aa01ae2523960d24486aef686
     };
     self.ws.onmessage = function (evt) {
         var msg = JSON.parse(evt.data);
@@ -34,9 +44,19 @@ function WsManager() {
     }
     loginStatus = (msg) => {
         if (msg.status == "ok") {
+<<<<<<< HEAD
             setAlert(msg.name + "玩家，你好");
         } else {
             setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家 FB登入</a>");
         }
     }
 }
+=======
+            setAlert(msg.name);
+        }
+        else {
+            setAlert("<a href='" + msg.url + "'>登入</a>");
+        }
+    }
+}
+>>>>>>> fb863bd35293593aa01ae2523960d24486aef686
