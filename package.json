@@ -1,0 +1,35 @@
+{
+  "name": "nodejsclass4",
+  "version": "1.0.0",
+  "description": "msp node js class 4th",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscar60310/NodeJsClass4.git"
+  },
+  "keywords": [
+    "facebook",
+    "nodejs",
+    "msp",
+    "js"
+  ],
+  "author": "goofy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oscar60310/NodeJsClass4/issues"
+  },
+  "homepage": "https://github.com/oscar60310/NodeJsClass4#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.1",
+    "express": "^4.15.2",
+    "express-session": "^1.15.2",
+    "http": "0.0.0",
+    "request": "^2.81.0",
+    "url": "^0.11.0",
+    "ws": "^2.2.3"
+  }
+}

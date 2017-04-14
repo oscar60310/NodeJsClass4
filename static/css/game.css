@@ -1,0 +1,16 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-family: 微軟正黑體;
+}
+
+.title{
+    margin: 6%;
+    letter-spacing: 50px;
+}
+
+#alertText{
+    letter-spacing: 10px;
+    font-size: xx-large;
+}
