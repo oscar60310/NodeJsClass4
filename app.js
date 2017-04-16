@@ -6,6 +6,7 @@ var app = express();
 var WebSocket = require('ws');
 var wsc = require('./wsConnect');
 var port = process.env.port || 1337;
+//var MemoryStore = require('session-memory-store')(session); 
 var sessionParser = session({
     secret: process.env.sessionKEY,
     cookie: {
@@ -14,6 +15,7 @@ var sessionParser = session({
     resave: false,
     saveUninitialized: true
 });
+
 app.use(sessionParser);
 
 app.get('/api/code', (req, res) => {
@@ -42,10 +44,10 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server, path: "/ws" });
 wss.on('connection', function connection(ws) {
     sessionParser(ws.upgradeReq, {}, function () {
-        ws.session = ws.upgradeReq.session;
+        var session = ws.upgradeReq.session;
+        console.log(session.name);
+        ws.session = session;
     });
-
-
     ws.on('message', function incoming(data) {
         var msg = { type: null };
         try {

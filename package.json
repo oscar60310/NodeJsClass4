@@ -23,12 +23,14 @@
   },
   "homepage": "https://github.com/oscar60310/NodeJsClass4#readme",
   "dependencies": {
+    "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.1",
     "express": "^4.15.2",
     "express-session": "^1.15.2",
     "http": "0.0.0",
     "request": "^2.81.0",
+    "session-memory-store": "^0.2.2",
     "shortid": "^2.2.8",
     "url": "^0.11.0",
     "ws": "^2.2.3"

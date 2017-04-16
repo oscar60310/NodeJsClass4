@@ -14,6 +14,7 @@ route = (ws, msg) => {
             else
                 sendJson(ws, { type: msg.type, statu: "not login" });
             break;
+        
     }
 }
 sendJson = (ws, msg) => {
