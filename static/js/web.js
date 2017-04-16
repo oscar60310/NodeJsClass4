@@ -46,7 +46,7 @@ function WsManager() {
     }
     newgame = (msg) => {
         if (msg.status == "ok") {
-            var gameurl = "http://localhost:1337/?id=" + msg.id;
+            var gameurl = window.location.origin + "/?id=" + msg.id;
             setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         }
     }
