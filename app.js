@@ -27,6 +27,7 @@ app.get('/api/code', (req, res) => {
         getUser(userdata.access_token).then((data) => {
             req.session.name = data.name;
             req.session.fbid = data.id;
+            console.log(req.session.name);
             res.redirect('../');
         });
     });
@@ -45,7 +46,7 @@ const wss = new WebSocket.Server({ server, path: "/ws" });
 wss.on('connection', function connection(ws) {
     sessionParser(ws.upgradeReq, {}, function () {
         var session = ws.upgradeReq.session;
-        console.log(session);
+        console.log(session.name);
         ws.session = session;
     });
     ws.on('message', function incoming(data) {
