@@ -12,7 +12,7 @@ var sessionParser = session({
     cookie: {
         maxAge: 10 * 60 * 1000
     },
-    resave: false,
+    resave: true,
     saveUninitialized: true
 });
 
