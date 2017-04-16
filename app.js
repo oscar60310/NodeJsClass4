@@ -45,7 +45,7 @@ const wss = new WebSocket.Server({ server, path: "/ws" });
 wss.on('connection', function connection(ws) {
     sessionParser(ws.upgradeReq, {}, function () {
         var session = ws.upgradeReq.session;
-        console.log(session.name);
+        console.log(session);
         ws.session = session;
     });
     ws.on('message', function incoming(data) {
