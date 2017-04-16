@@ -19,6 +19,9 @@ function WsManager() {
             case "LOGIN":
                 loginStatus(msg);
                 break;
+            case "CREATE":
+                newgame(msg);
+                break;
         }
 
     };
@@ -34,9 +37,17 @@ function WsManager() {
     }
     loginStatus = (msg, text, url) => {
         if (msg.status == "ok") {
-            setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
+            self.sendJson(self.ws, {
+                type: "CREATE"
+            });
         } else {
             setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家FB登入</a>");
+        }
+    }
+    newgame = (msg) => {
+        if (msg.status == "ok") {
+            var gameurl = "http://localhost:1337/?id=" + msg.id;
+            setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         }
     }
 }
