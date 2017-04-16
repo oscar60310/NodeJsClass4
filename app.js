@@ -27,7 +27,8 @@ app.get('/api/code', (req, res) => {
         getUser(userdata.access_token).then((data) => {
             req.session.name = data.name;
             req.session.fbid = data.id;
-            console.log(req.session.name);
+
+            console.log(data);
             res.redirect('../');
         });
     });
