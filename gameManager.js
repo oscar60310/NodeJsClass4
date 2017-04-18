@@ -2,6 +2,15 @@ var shortid = require('shortid');
 var axios = require('axios');
 var sh
 var gamelist = [];
+cleargame = () => {
+    gamelist.forEach((g, i, l) => {
+        if (g.expire < (new Date()).getTime()) {
+            l.splice(index, 1);
+        }
+    });
+    setTimeout(cleargame,5 * 60 * 1000);
+}
+cleargame();
 createNewGame = (ws) => {
     var id = shortid.generate();
     gamelist.push({
