@@ -2,21 +2,40 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src='js/web.js'></script>
-    <script src='js/main.js'></script>
-    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/game.css">
+    <!-- link href="dist/css/bootstrap.min.css" rel="stylesheet">!-->
+    <link rel="stylesheet" href="css/room.css">
+    <script src="https://use.fontawesome.com/29a3c0810e.js"></script>
     <title>Facebook 小遊戲</title>
 </head>
 
 <body>
-    <div id="container">
-        你以為這裡會有什麼?
+
+    <div class="content-box">
+        <div id="prepare" class="prebox">
+            <img src="./pic/question.svg" class="icon" />
+            <div id="pre_status">等待玩家</div>
+            <div id="detail">
+                <div id="p1" class="player_area">
+                    <div id="p1_status">
+                        <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+                    <div id="p1_name" class='name_show'>玩家1姓名</div>
+                </div>
+                <div id="p2" class="player_area">
+                    <div id="p2_status">
+                        <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                    </div>
+                    <div id="p2_name" class='name_show'>玩家2姓名</div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="credit">Icons made by <a href="http://www.flaticon.com/authors/vectors-market" title="Vectors Market">Vectors Market</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> !-->
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <!-- <script src='js/Match_web.js'></script>
-    <script src='js/Match_main.js'></script> !-->
+    <script src='js/Room_web.js'></script>
+    <script src='js/Room_main.js'></script>
+
 </body>
 
 </html>

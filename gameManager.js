@@ -8,7 +8,7 @@ cleargame = () => {
             l.splice(index, 1);
         }
     });
-    setTimeout(cleargame,5 * 60 * 1000);
+    setTimeout(cleargame, 5 * 60 * 1000);
 }
 cleargame();
 createNewGame = (ws) => {
@@ -38,10 +38,15 @@ joinGame = (ws, gameid) => {
         if (game.status == 'wait' && game.players.length <= 2) {
             checkFriend(ws.session.key, ws.session.fbid, game.host).then((data) => {
                 if (data) {
-                    game.players.push(ws.session.name);
+                    game.players.push({ name: ws.session.name, id: ws.session.fbid });
                     game.ws.push(ws);
-                    console.log(game);
-                    resolve({ status: 'ok', notify: game.ws, players: game.players, todo: (game.players.length == 2) ? "notify" : "" });
+                    //console.log(game);
+                    if (game.players.length == 2) {
+                        resolve({ status: 'ok', notify: game.ws, players: game.players, todo: "notify" });
+                    }
+                    else
+                        resolve({ status: 'ok', notify: game.ws, players: game.players, todo: "" });
+
                 }
                 else
                     resolve({ status: 'not friend' });
@@ -73,7 +78,41 @@ checkFriend = (token, fbid, target) => {
     });
 
 }
+info = (ws, gameid) => {
+    return new Promise((resolve) => {
+        var game = null;
+        gamelist.forEach((g) => {
+            if (g.id == gameid) {
+                game = g;
+            }
+        })
+        if (game == null) {
+            resolve({ data: { status: 'id not found' } });
+            return;
+        }
+        var find = false;
+        game.players.forEach((p) => {
+            if (p.id == ws.session.fbid && p.ws == null && !find) {
+                find = true;
+                p.ws = ws;
+                var sendinfo = [{ name: game.players[0].name, id: game.players[0].id },
+                { name: game.players[1].name, id: game.players[1].id }];
+                if (game.players[0].ws && game.players[1].ws) {
+                    // 開始準備題目
+                    resolve({ data: { status: 'ok', players: sendinfo }, todo: "notify", ws: [game.players[0].ws, game.players[1].ws] });
+                }
+                else {
+                    resolve({ data: { status: 'ok', players: sendinfo }, todo: "" });
+                }
+            }
+        })
+        resolve({ data: { status: 'not join' } });
+
+
+    });
+}
 module.exports = {
     createNewGame,
-    joinGame
+    joinGame,
+    info
 }

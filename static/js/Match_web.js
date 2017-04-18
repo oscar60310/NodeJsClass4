@@ -66,7 +66,7 @@ function WsManager() {
             self.gid = msg.id;
     }
     match = (msg) => {
-        var playshow = msg.players[0] + ' vs ' + msg.players[1];
+        var playshow = msg.players[0].name + ' vs ' + msg.players[1].name;
         setTimeout(counter, 1000, playshow, 5);
     }
     counter = (ps, n) => {

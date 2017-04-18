@@ -30,7 +30,18 @@ route = (ws, msg) => {
                 sendJson(ws, { type: msg.type, status: "not login or no game id" });
             }
             break;
-
+        case "INFO":
+            if (ws.session.name && msg.game) {
+                gm.info(ws,msg.game).then((d) => {
+                    d.data.type = msg.type;
+                    sendJson(ws,d.data);
+                    if(d.todo == "notify"){
+                        sendJson(d.ws[0], {type:"COMPUTING"});
+                        sendJson(d.ws[1], {type:"COMPUTING"});
+                    }
+                });
+            }
+            break;
     }
 }
 sendJson = (ws, msg) => {

@@ -1,0 +1,33 @@
+html,body{
+    font-family: 微軟正黑體;
+
+}
+
+.prebox{
+    width: 20%;
+    width: 100%;
+    text-align: center;
+    margin-top:100px;
+}
+#pre_status{
+    margin-top: 30px;
+    font-size: 30px;
+}
+.icon{
+    width: 100px;
+    height: 100px;
+}
+.name_show{
+    display: block;
+    font-size: 20px;
+    margin: 10px;
+}
+#detail{
+    margin-top: 50px;
+
+}
+.player_area{
+    display: inline-block;
+    width: 200px;
+    margin: 10px;
+}
