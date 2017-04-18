@@ -62,6 +62,8 @@ function WsManager() {
             setAlert("無法加入", "ID 無效，產生新的房間...", "");
             setTimeout(() => self.sendJson(self.ws, { type: "CREATE" }), 1000);
         }
+        else
+            self.gid = msg.id;
     }
     match = (msg) => {
         var playshow = msg.players[0] + ' vs ' + msg.players[1];
@@ -70,7 +72,7 @@ function WsManager() {
     counter = (ps, n) => {
         setAlert(ps, "配對成功，將於" + n + "秒後開始遊戲！", "");
         if (n <= 0) {
-            window.location = './room.html';
+            window.location = './room.html?id=' + self.gid;
         }
         else
             setTimeout(counter, 1000, ps, --n);

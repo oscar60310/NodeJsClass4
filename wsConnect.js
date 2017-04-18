@@ -18,7 +18,7 @@ route = (ws, msg) => {
             if (msg.game && ws.session.name) {
                 gm.joinGame(ws, msg.game).then((d) => {
                     ws.session.game = msg.game;
-                    sendJson(ws, { type: msg.type, status: d.status });
+                    sendJson(ws, { type: msg.type, status: d.status, id: msg.game });
                     if (d.todo == 'notify') {
                         d.notify.forEach((wsToNotify) => {
                             sendJson(wsToNotify, { type: "MATCH", players: d.players });
