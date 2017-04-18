@@ -5,3 +5,7 @@ setAlert = (msg, text, url) => {
     $("#Title2").html(text);
     $("#alertUrl").html(url);
 }
+
+$(() => {
+});
+

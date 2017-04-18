@@ -8,8 +8,10 @@ function WsManager() {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
         self.sendJson(self.ws, {
-            type: "LOGIN"
+            type: "LOGIN",
+            game: getUrlParameter('id')
         });
+
     };
     self.ws.onmessage = function (evt) {
         var msg = JSON.parse(evt.data);
@@ -21,6 +23,12 @@ function WsManager() {
                 break;
             case "CREATE":
                 newgame(msg);
+                break;
+            case "JOIN":
+                checkJoin(msg);
+                break;
+            case "MATCH":
+                match(msg);
                 break;
         }
 
@@ -37,17 +45,48 @@ function WsManager() {
     }
     loginStatus = (msg, text, url) => {
         if (msg.status == "ok") {
-            self.sendJson(self.ws, {
-                type: "CREATE"
-            });
+            self.sendJson(self.ws, { type: "JOIN", game: getUrlParameter("id") });
         } else {
             setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家FB登入</a>");
         }
     }
     newgame = (msg) => {
         if (msg.status == "ok") {
+            self.sendJson(self.ws, { type: "JOIN", game: msg.id });
             var gameurl = window.location.origin + "/?id=" + msg.id;
             setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         }
     }
+    checkJoin = (msg) => {
+        if (msg.status != "ok") {
+            setAlert("無法加入", "ID 無效，產生新的房間...", "");
+            setTimeout(() => self.sendJson(self.ws, { type: "CREATE" }), 1000);
+        }
+    }
+    match = (msg) => {
+        var playshow = msg.players[0] + ' vs ' + msg.players[1];
+        setTimeout(counter, 1000, playshow, 5);
+    }
+    counter = (ps, n) => {
+        setAlert(ps, "配對成功，將於" + n + "秒後開始遊戲！", "");
+        if (n <= 0) {
+            window.location = './room.html';
+        }
+        else
+            setTimeout(counter, 1000, ps, --n);
+    }
 }
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};

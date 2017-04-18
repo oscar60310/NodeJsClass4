@@ -19,7 +19,7 @@ var sessionParser = session({
 app.use(sessionParser);
 
 app.get('/api/code', (req, res) => {
-    request('https://graph.facebook.com/v2.8/oauth/access_token?client_id=' + process.env.appID + '&redirect_uri=' + process.env.redirect + '/api/code' + '&client_secret=' + process.env.appKEY + '&code=' + req.query.code, (error, response, body) => {
+    request('https://graph.facebook.com/v2.8/oauth/access_token?client_id=' + process.env.appID + '&redirect_uri=' + process.env.redirect + '/api/code?id=' + req.query.id + '&client_secret=' + process.env.appKEY + '&code=' + req.query.code, (error, response, body) => {
         
         var userdata = JSON.parse(body);
         req.session.key = userdata.access_token;
@@ -28,8 +28,8 @@ app.get('/api/code', (req, res) => {
             req.session.name = data.name;
             req.session.fbid = data.id;
 
-           
-            res.redirect('../');
+            var url = (req.query.id != 'undefined')? '../?id=' + req.query.id : '../';
+            res.redirect(url);
         });
     });
 });
