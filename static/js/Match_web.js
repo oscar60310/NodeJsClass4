@@ -45,24 +45,31 @@ function WsManager() {
     }
     loginStatus = (msg, text, url) => {
         if (msg.status == "ok") {
-            self.sendJson(self.ws, { type: "JOIN", game: getUrlParameter("id") });
+            self.sendJson(self.ws, {
+                type: "JOIN",
+                game: getUrlParameter("id")
+            });
         } else {
             setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家FB登入</a>");
         }
     }
     newgame = (msg) => {
         if (msg.status == "ok") {
-            self.sendJson(self.ws, { type: "JOIN", game: msg.id });
+            self.sendJson(self.ws, {
+                type: "JOIN",
+                game: msg.id
+            });
             var gameurl = window.location.origin + "/?id=" + msg.id;
-            setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
+            setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"複製\" data-delay=\"0\" onclick=\"copyURL()\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         }
     }
     checkJoin = (msg) => {
         if (msg.status != "ok") {
             setAlert("無法加入", "ID 無效，產生新的房間...", "");
-            setTimeout(() => self.sendJson(self.ws, { type: "CREATE" }), 1000);
-        }
-        else
+            setTimeout(() => self.sendJson(self.ws, {
+                type: "CREATE"
+            }), 1000);
+        } else
             self.gid = msg.id;
     }
     match = (msg) => {
@@ -73,8 +80,7 @@ function WsManager() {
         setAlert(ps, "配對成功，將於" + n + "秒後開始遊戲！", "");
         if (n <= 0) {
             window.location = './room.html?id=' + self.gid;
-        }
-        else
+        } else
             setTimeout(counter, 1000, ps, --n);
     }
 }

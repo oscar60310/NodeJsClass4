@@ -15,6 +15,22 @@
         <div id="alertText"></div>
         <div id="alertUrl"></div>
     </div>
+    <script>
+        function copyURL() {
+            var url = document.getElementsByTagName("input")[0].value;
+            var input = document.createElement('textarea');
+            document.body.appendChild(input);
+            input.value = url;
+            input.focus();
+            input.select();
+            var success = document.execCommand ("copy", false, null);
+            input.remove();
+            if (success)
+                alert("已複製網址");
+            else
+                alert("複製失敗");
+        }
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src='js/Match_web.js'></script>
     <script src='js/Match_main.js'></script>
