@@ -5,12 +5,62 @@ var gamelist = [];
 cleargame = () => {
     gamelist.forEach((g, i, l) => {
         if (g.expire < (new Date()).getTime()) {
-            l.splice(index, 1);
+            l.splice(i, 1);
         }
     });
     setTimeout(cleargame, 5 * 60 * 1000);
 }
 cleargame();
+createQuestions = (gameid) => {
+    return new Promise((resolve) => {
+        var game = getGameByID(gameid);
+        if (game) {
+            /// Create question
+            game.questions = [{
+                id: 1,
+                description: {
+                    text: '采楓是不是智障?',
+                    image: null
+                },
+                ans: { A: "是", B: "是是", C: "是是是", D: "是是是是" },
+                currect: "B",
+                time: 10,
+                score: 10
+            }];
+            game.nowquestion = 0;
+            setTimeout(() => resolve({ status: "ok", game }), 2000); //test
+        }
+        else {
+            resolve({ status: "no game id" });
+        }
+    })
+
+}
+getQuestion = (gameid) => {
+    return new Promise((resolve, reject) => {
+        var game = getGameByID(gameid);
+        if (game) {
+            var wss = [game.players[0].ws, game.players[1].ws];
+            if (game.nowquestion < game.questions.length)
+                resolve({ d: wss, que: game.questions[game.nowquestion++] });
+            else
+                resolve({ d: wss, que: null });
+        }
+        else {
+            reject();
+            console.log("no game id error");
+        }
+    });
+}
+getGameByID = (id) => {
+    var game = null;
+    gamelist.forEach((g) => {
+        if (g.id == id) {
+            game = g;
+        }
+    })
+    return game;
+}
 createNewGame = (ws) => {
     var id = shortid.generate();
     gamelist.push({
@@ -111,8 +161,34 @@ info = (ws, gameid) => {
 
     });
 }
+ready = (ws) => {
+    return new Promise((resolve, reject) => {
+        var game = getGameByID(ws.gameid);
+        if (game) {
+            var find = false;
+            game.players.forEach((p) => {
+                if (p.id == ws.session.fbid && !find && !p.ready) {
+                    find = true;
+                    p.ready = true;
+                }
+            })
+            if (game.players[0].ready && game.players[1].ready)
+                resolve({ todo: 'notify', ws: [game.players[0].ws, game.players[1].ws] });
+            else
+                resolve({ todo: '' });
+        }
+        else {
+            reject();
+            console.log("no game id error");
+        }
+    });
+}
 module.exports = {
     createNewGame,
     joinGame,
-    info
+    info,
+    createQuestions,
+    getGameByID,
+    ready,
+    getQuestion
 }
