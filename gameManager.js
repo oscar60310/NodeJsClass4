@@ -22,7 +22,7 @@ createQuestions = (gameid) => {
                     text: '采楓是不是智障?',
                     image: null
                 },
-                ans: { A: "是", B: "是是", C: "是是是", D: "是是是是" },
+                ans: { A: "不是", B: "是", C: "不是", D: "不是" },
                 currect: "B",
                 time: 10,
                 score: 10
