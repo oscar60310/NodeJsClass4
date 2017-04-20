@@ -22,10 +22,18 @@ function WsManager() {
                 loadinfo(msg);
                 break;
             case "COMPUTING":
-                $("#pre_status").html("第一題");
-                $("#pre_question").html("請選擇數字1");
-                $("#detail").addClass('remove');
-                $("#chose").removeClass('remove');
+                if (msg.finish) {
+                    //// 請兩個人案準備
+                    $("#pre_status").html("第一題");
+                    $("#pre_question").html("請選擇數字1");
+                    $("#detail").addClass('remove');
+                    $("#chose").removeClass('remove');
+                }
+                else{
+                    $("#pre_status").html("正在出題目... 0%");
+                }
+                break;
+            case "QUESTION":
                 break;
         }
 
