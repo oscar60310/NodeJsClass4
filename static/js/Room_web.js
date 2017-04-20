@@ -22,7 +22,10 @@ function WsManager() {
                 loadinfo(msg);
                 break;
             case "COMPUTING":
-                $("#pre_status").html("正在出題目...");
+                $("#pre_status").html("第一題");
+                $("#pre_question").html("請選擇數字1");
+                $("#detail").addClass('remove');
+                $("#chose").removeClass('remove');
                 break;
         }
 
