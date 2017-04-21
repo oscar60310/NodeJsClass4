@@ -32,18 +32,50 @@ route = (ws, msg) => {
             break;
         case "INFO":
             if (ws.session.name && msg.game) {
-                gm.info(ws,msg.game).then((d) => {
+                gm.info(ws, msg.game).then((d) => {
                     d.data.type = msg.type;
-                    sendJson(ws,d.data);
-                    if(d.todo == "notify"){
-                        sendJson(d.ws[0], {type:"COMPUTING"});
-                        sendJson(d.ws[1], {type:"COMPUTING"});
+                    ws.gameid = msg.game;
+                    sendJson(ws, d.data);
+                    if (d.todo == "notify") {
+                        sendJson(d.ws[0], { type: "COMPUTING" });
+                        sendJson(d.ws[1], { type: "COMPUTING" });
+                        gm.createQuestions(msg.game).then(notifyGetReady);
                     }
                 });
             }
             break;
+        case "READY":
+            gm.ready(ws).then((d) => {
+                if (d.todo == "notify") {
+                    sendJson(d.ws[0], { type: "START", delay: 5 });
+                    sendJson(d.ws[1], { type: "START", delay: 5 });
+                    setTimeout(sendQuestion, 6000, ws.gameid);
+                }
+            });
+            break;
     }
 }
+sendQuestion = (gameid) => {
+    gm.getQuestion(gameid).then((data) => {
+        var s = {
+            type: "QUESTION",
+            time: data.que.time,
+            que: data.que.description,
+            ans: data.que.ans,
+            id: data.que.id
+        };
+        sendJson(data.d[0], s);
+        sendJson(data.d[1], s);
+    });
+}
+notifyGetReady = (data) => {
+    var s = (data.status == "ok") ? { type: "COMPUTING", finish: true } : { type: "COMPUTING", finish: false };
+    sendJson(data.game.players[0].ws, s);
+    sendJson(data.game.players[1].ws, s);
+}
+
+
+
 sendJson = (ws, msg) => {
     ws.send(JSON.stringify(msg));
 }
