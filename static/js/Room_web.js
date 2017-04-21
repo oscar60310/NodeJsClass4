@@ -22,6 +22,7 @@ function WsManager() {
                 loadinfo(msg);
                 break;
             case "COMPUTING":
+            
                 if (msg.finish) {
                     //// 請兩個人案準備
                     $("#pre_status").html("第一題");
