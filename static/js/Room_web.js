@@ -22,7 +22,7 @@ function WsManager() {
                 loadinfo(msg);
                 break;
             case "COMPUTING":
-            
+
                 if (msg.finish) {
                     //// 請兩個人案準備
                     $("#detail").addClass('remove');
@@ -35,8 +35,7 @@ function WsManager() {
                         $("#ready_btn").html("等待玩家");
                         $("#ready_btn").unbind();
                     });
-                }
-                else {
+                } else {
                     $("#pre_status").html("正在出題目... 0%");
                 }
                 break;
@@ -55,6 +54,7 @@ function WsManager() {
                 $("#pre_question").html(msg.que.text);
                 $("#detail").addClass('remove');
                 $("#chose").removeClass('remove');
+                $("#score").removeClass('remove');
                 setQuestion(msg.ans, msg.time);
                 break;
         }
@@ -125,3 +125,30 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+var circle = document.querySelectorAll(".circle")[0];
+var mask = document.querySelectorAll(".mask")[0];
+var left = document.querySelectorAll(".left")[0];
+var right = document.querySelectorAll(".right")[0];
+var range = document.getElementById("range");
+
+var hour = document.querySelectorAll("#hour")[0];
+
+var n;
+changeHour();
+range.oninput = changeHour;
+
+function changeHour() {
+    hour.innerHTML = range.value;
+    n = range.value;
+    if (n <= 50) {
+        left.style.webkitTransform = "rotate(" + 3.6 * n + "deg)";
+        right.style.opacity = 0;
+        mask.style.opacity = 1;
+    } else {
+        right.style.opacity = 1;
+        mask.style.opacity = 0;
+        left.style.webkitTransform = "rotate(" + 180 + "deg)";
+        right.style.webkitTransform = "rotate(" + 3.6 * n + "deg)";
+    }
+}

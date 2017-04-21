@@ -13,6 +13,18 @@
     <div class="content-box">
         <div id="prepare" class="prebox">
             <img src="./pic/question.svg" class="icon" />
+            <div class="circle_process remove" id="score">
+                <div class="circle">
+                    <div class="track"></div>
+                    <div class="left transition-rotate"></div>
+                    <div class="right transition-rotate"></div>
+                    <div class="mask"></div>
+                    <span id="hour">0</span><span class="percent">分</span>
+                </div>
+
+                <input id="range" type="range" min="0" max="100" step="1" value="0">
+
+            </div>
             <div id="pre_status">等待玩家</div>
             <div id="pre_question"></div>
             <div id="detail">
