@@ -53,6 +53,9 @@ route = (ws, msg) => {
                 }
             });
             break;
+        case "ANSER":
+        
+        break;  
     }
 }
 sendQuestion = (gameid) => {

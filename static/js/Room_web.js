@@ -102,6 +102,7 @@ function WsManager() {
     }
     click_choose = (e) => {
         var c = $(e.target).attr('choose');
+        sendJson(self.ws, {type:"ANSWER",choose:c});
     }
     loadinfo = (msg) => {
         $("#p1_name").html(msg.players[0].name);
