@@ -15,15 +15,15 @@ getQuestion = (token1, token2) => {
         }];
 
         // +題目
-        axios.get('https://graph.facebook.com/v2.8/me', { params: { access_token: token1, fields: "birthday" } }).then((res) => {
+        axios.get('https://graph.facebook.com/v2.8/me', { params: { access_token: token1,fields: "name,birthday" } }).then((res) => {
             console.log(res.data);
             //question 1
             var birthday = res.data.birthday.split("/")
             var answer = ["1/1", "2/2", "6/6", birthday[0] + "/" + birthday[1]]
-            var q = {
+            var q1 = {
                 id: 2,
                 description: {
-                    text: '鄭薇的生日是幾號?',
+                    text: res.data.name + ' 的生日是幾號?',
                     image: null
                 },
                 ans: { A: answer[0], B: answer[1], C: answer[2], D: answer[3] },
@@ -31,9 +31,11 @@ getQuestion = (token1, token2) => {
                 time: 10,
                 score: 10
             };
-            questions.push(q);
-            resolve(questions);
             //question 2
+
+            questions.push(q1);
+            //questions.push(q2);
+            resolve(questions);
         })
     })
 }
