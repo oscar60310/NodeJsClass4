@@ -68,11 +68,11 @@ function WsManager() {
                         $(btns[i]).addClass("btn_currect");
                     }
                     if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
-                        $(scos[i]).html("得分: " + msg.data.players[msg.id].score);
+                        $(scos[i]).html("得分: " + Math.floor(msg.data.players[msg.id].score));
                     }
                     var id2 = (msg.id == 0 ) ? 1:0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
-                        $(scos2[i]).html("對方: " + msg.data.players[id2].score);
+                        $(scos2[i]).html("對方: " +  Math.floor(msg.data.players[id2].score));
                     }
                 }
                 break;
