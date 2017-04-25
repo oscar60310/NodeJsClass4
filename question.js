@@ -9,6 +9,7 @@ getQuestion = (token1, token2) => {
             },
             ans: { A: "不是", B: "是", C: "不是", D: "不是" },
             correct: "B",
+
             time: 10,
             score: 10
         }];

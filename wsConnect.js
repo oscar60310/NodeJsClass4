@@ -53,22 +53,42 @@ route = (ws, msg) => {
                 }
             });
             break;
-        case "ANSER":
-        
-        break;  
+        case "ANSWER":
+            gm.solveQuestion(ws, msg.choose).then((data) => {
+                if (data) {
+                    var g = gm.getGameByID(ws.gameid);
+                    setTimeout(sendResult, 1000, g, g.nowquestion);
+                }
+            }).catch((e) => { });
+            break;
+    }
+}
+sendResult = (game, nq) => {
+    if (game.nowquestion == nq) {
+        var re = { type: "RESULT", data: gm.getResult(game) };
+        for (var i = 0; i < 2; i++) {
+            re.id = i;
+            sendJson(game.players[i].ws, re);
+        }
+        setTimeout(sendQuestion, 2000, game.id);
     }
 }
 sendQuestion = (gameid) => {
     gm.getQuestion(gameid).then((data) => {
-        var s = {
-            type: "QUESTION",
-            time: data.que.time,
-            que: data.que.description,
-            ans: data.que.ans,
-            id: data.que.id
-        };
-        sendJson(data.d[0], s);
-        sendJson(data.d[1], s);
+        if (data != null) {
+            var s = {
+                type: "QUESTION",
+                time: data.que.time,
+                que: data.que.description,
+                ans: data.que.ans,
+                id: data.que.id
+            };
+            sendJson(data.d[0], s);
+            sendJson(data.d[1], s);
+            var g = gm.getGameByID(gameid);
+            setTimeout(sendResult, s.time * 1000, g, g.nowquestion);
+        }
+
     });
 }
 notifyGetReady = (data) => {

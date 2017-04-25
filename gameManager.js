@@ -31,18 +31,85 @@ createQuestions = (gameid) => {
     })
 
 }
+solveQuestion = (ws, ans) => {
+    return new Promise((resolve, reject) => {
+        var game = getGameByID(ws.gameid);
+        if (game) {
+            var player = null;
+            game.players.forEach((p) => {
+                if (p.id == ws.session.fbid && p.ready == false && player == null) {
+                    p.ready = true;
+                    player = p;
+                }
+            });
+            if (player == null)
+                resolve(false);
+            else {
+                player.result[game.nowquestion] = {
+                    ans: ans,
+                    time: (new Date()).getTime()
+                };
+                game.questions[game.nowquestion].hasAns++;
+                //console.log(player.result[game.nowquestion]);
+                if (game.questions[game.nowquestion].hasAns == 2)
+                    resolve(true);
+                else
+                    resolve(false);
+            }
+        }
+        else {
+            reject();
+            console.log("no game id error");
+        }
+    });
+}
+getResult = (game) => {
+    var re = [];
+    for (var i = 0; i < 2; i++) {
+        var que = game.questions[game.nowquestion];
+        var player_que = game.players[i].result[game.nowquestion];
+        if (player_que == null)
+            player_que = { score: 0 };
+        else {
 
+            if (player_que.ans != que.correct)
+                player_que.score = 0;
+            else {
+                var lasttime = (que.timeout - player_que.time) / 1000;
+                if (lasttime <= 0)
+                    player_que.score = 0;
+                else
+                    player_que.score = (lasttime > que.time / 3) ? que.score : (que.score / 3) + (que.score / 3) * lasttime / (que.time / 3);
+            }
+        }
+        re.push({ id:i, player: game.players[i].id, ans: player_que.ans, score: player_que.score });
+
+    }        
+    game.nowquestion++;
+    return {players:re,ans:que.correct};
+
+}
 getQuestion = (gameid) => {
     return new Promise((resolve, reject) => {
         var game = getGameByID(gameid);
         if (game) {
-            var wss = [game.players[0].ws, game.players[1].ws];
-            if (game.nowquestion < game.questions.length) {
-                game.questions[game.nowquestion].timeout = (new Date()).getTime()  +(game.questions[game.nowquestion] * 1000) + 1000;
-                resolve({ d: wss, que: game.questions[game.nowquestion] });
+            if (game.nowquestion >= game.questions.length) {
+                resolve();
+            } else {
+                var wss = [game.players[0].ws, game.players[1].ws];
+                game.players[0].result = [];
+                game.players[1].result = [];
+                game.players[0].ready = false;
+                game.players[1].ready = false;
+                if (game.nowquestion < game.questions.length) {
+                    game.questions[game.nowquestion].timeout = (new Date()).getTime() + (game.questions[game.nowquestion].time * 1000) + 1000;
+                    game.questions[game.nowquestion].hasAns = 0;
+                    resolve({ d: wss, que: game.questions[game.nowquestion] });
+                }
+                else
+                    resolve({ d: wss, que: null });
             }
-            else
-                resolve({ d: wss, que: null });
+
         }
         else {
             reject();
@@ -59,6 +126,7 @@ getGameByID = (id) => {
     })
     return game;
 }
+
 createNewGame = (ws) => {
     var id = shortid.generate();
     gamelist.push({
@@ -188,5 +256,7 @@ module.exports = {
     createQuestions,
     getGameByID,
     ready,
-    getQuestion
+    getQuestion,
+    solveQuestion,
+    getResult
 }
