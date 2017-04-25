@@ -75,6 +75,7 @@ table {
     border: 2px solid #4CAF50;
     margin: 20px;
     width: 15em;
+    margin-top: 25px;
 }
 
 .button1:hover {
@@ -185,4 +186,25 @@ table {
     -ms-transition: transform .1s ease-in-out;
     -o-transition: transform .1s ease-in-out;
     transition: transform .1s ease-in-out;
+}
+
+.btn_select {
+    background-color: #fbe85c;
+    border: 2px solid #E3CC21;
+}
+.btn_select:hover {
+    background-color: #fbe85c;
+    border: 2px solid #E3CC21;
+}
+.btn_currect{
+    background-color: #8dfb5c;
+    border: 2px solid #129218;
+}
+.choose_score{
+    position: absolute;
+    margin-left: 20px;
+}
+.choose_score2{
+    position: absolute;
+    margin-left: 190px;
 }

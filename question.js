@@ -8,7 +8,7 @@ getQuestion = (token1, token2) => {
                 image: null
             },
             ans: { A: "不是", B: "是", C: "不是", D: "不是" },
-            currect: "B",
+            correct: "B",
             time: 10,
             score: 10
         }, {
@@ -18,7 +18,7 @@ getQuestion = (token1, token2) => {
                 image: null
             },
             ans: { A: "不是", B: "是", C: "不是", D: "不是" },
-            currect: "B",
+            correct: "B",
             time: 10,
             score: 10
         }];

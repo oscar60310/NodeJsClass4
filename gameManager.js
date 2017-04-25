@@ -72,7 +72,7 @@ getResult = (game) => {
             player_que = { score: 0 };
         else {
 
-            if (player_que.ans != que.currect)
+            if (player_que.ans != que.correct)
                 player_que.score = 0;
             else {
                 var lasttime = (que.timeout - player_que.time) / 1000;
@@ -82,11 +82,11 @@ getResult = (game) => {
                     player_que.score = (lasttime > que.time / 3) ? que.score : (que.score / 3) + (que.score / 3) * lasttime / (que.time / 3);
             }
         }
-        re.push({ player: game.players[i].id, ans: player_que.ans, score: player_que.score });
+        re.push({ id:i, player: game.players[i].id, ans: player_que.ans, score: player_que.score });
 
     }        
     game.nowquestion++;
-    return re;
+    return {players:re,ans:que.correct};
 
 }
 getQuestion = (gameid) => {

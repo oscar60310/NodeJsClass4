@@ -57,19 +57,20 @@ route = (ws, msg) => {
             gm.solveQuestion(ws, msg.choose).then((data) => {
                 if (data) {
                     var g = gm.getGameByID(ws.gameid);
-                    sendResult(g, g.nowquestion);
+                    setTimeout(sendResult, 1000, g, g.nowquestion);
                 }
             }).catch((e) => { });
             break;
     }
 }
 sendResult = (game, nq) => {
-    console.log(game.nowquestion, nq);
     if (game.nowquestion == nq) {
         var re = { type: "RESULT", data: gm.getResult(game) };
-        sendJson(game.players[0].ws, re);
-        sendJson(game.players[1].ws, re);
-        setTimeout(sendQuestion,2000,game.id);
+        for (var i = 0; i < 2; i++) {
+            re.id = i;
+            sendJson(game.players[i].ws, re);
+        }
+        setTimeout(sendQuestion, 2000, game.id);
     }
 }
 sendQuestion = (gameid) => {

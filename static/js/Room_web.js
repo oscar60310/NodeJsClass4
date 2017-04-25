@@ -57,6 +57,25 @@ function WsManager() {
                 $("#score").removeClass('remove');
                 setQuestion(msg.ans, msg.time);
                 break;
+            case "RESULT":
+                $('#timeline').css('display', 'none');
+                var btns = $('.button1');
+                var scos = $('.choose_score');
+                var scos2 = $('.choose_score2');
+                for (var i = 0; i < btns.length; i++) {
+                    $(btns[i]).removeClass("btn_select");
+                    if ($(btns[i]).attr('choose') == msg.data.ans) {
+                        $(btns[i]).addClass("btn_currect");
+                    }
+                    if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
+                        $(scos[i]).html("得分: " + msg.data.players[msg.id].score);
+                    }
+                    var id2 = (msg.id == 0 ) ? 1:0;
+                    if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
+                        $(scos2[i]).html("對方: " + msg.data.players[id2].score);
+                    }
+                }
+                break;
         }
 
     };
@@ -72,10 +91,17 @@ function WsManager() {
     }
     setQuestion = (ans, t) => {
         var btns = $('.button1');
+        var scos = $('.choose_score');
+        var scos2 = $('.choose_score2');
         for (var i = 0; i < btns.length; i++) {
             $(btns[i]).html(ans[$(btns[i]).attr("choose")]);
+            $(btns[i]).removeClass("btn_select");
+            $(btns[i]).removeClass("btn_currect");
+            $(scos[i]).html("");
+            $(scos2[i]).html("");
         }
         var timeline = $("#timeline");
+        timeline.css('display', 'block');
         timeline.css({
             'transition-duration': '0s',
             '-webkit-transition-duration': '0s'
@@ -101,8 +127,10 @@ function WsManager() {
         }
     }
     click_choose = (e) => {
+        $('#timeline').css('display', 'none');
         var c = $(e.target).attr('choose');
-        this.sendJson(self.ws, {type:"ANSWER",choose:c});
+        $(e.target).addClass("btn_select");
+        this.sendJson(self.ws, { type: "ANSWER", choose: c });
     }
     loadinfo = (msg) => {
         $("#p1_name").html(msg.players[0].name);
