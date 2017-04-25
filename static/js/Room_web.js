@@ -55,26 +55,32 @@ function WsManager() {
                 $("#detail").addClass('remove');
                 $("#chose").removeClass('remove');
                 $("#score").removeClass('remove');
+                tcount = msg.time - 1;
                 setQuestion(msg.ans, msg.time);
                 break;
             case "RESULT":
                 $('#timeline').css('display', 'none');
                 var btns = $('.button1');
                 var scos = $('.choose_score');
-                var scos2 = $('.choose_score2');
                 for (var i = 0; i < btns.length; i++) {
                     $(btns[i]).removeClass("btn_select");
                     if ($(btns[i]).attr('choose') == msg.data.ans) {
                         $(btns[i]).addClass("btn_currect");
                     }
                     if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
-                        $(scos[i]).html("得分: " + Math.floor(msg.data.players[msg.id].score));
+                        $(scos[i]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
                     }
-                    var id2 = (msg.id == 0 ) ? 1:0;
+                    var id2 = (msg.id == 0) ? 1 : 0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
-                        $(scos2[i]).html("對方: " +  Math.floor(msg.data.players[id2].score));
+                        $(scos[i]).html($(scos[i]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
                     }
                 }
+                break;
+            case "END":
+                $("#detail").removeClass('remove');
+                $("#chose").addClass('remove');
+                $("#score").addClass('remove');
+                loadScore(msg.data);
                 break;
         }
 
@@ -90,15 +96,14 @@ function WsManager() {
         ws.send(JSON.stringify(msg));
     }
     setQuestion = (ans, t) => {
+
         var btns = $('.button1');
         var scos = $('.choose_score');
-        var scos2 = $('.choose_score2');
         for (var i = 0; i < btns.length; i++) {
             $(btns[i]).html(ans[$(btns[i]).attr("choose")]);
             $(btns[i]).removeClass("btn_select");
             $(btns[i]).removeClass("btn_currect");
             $(scos[i]).html("");
-            $(scos2[i]).html("");
         }
         var timeline = $("#timeline");
         timeline.css('display', 'block');
@@ -117,8 +122,20 @@ function WsManager() {
             timeline.removeClass('timeline_show');
         }, 10);
 
-
     }
+    var tcount = 0;
+
+    counter = () => {
+        if (tcount > 1) {
+            $("#timeline").html(tcount);
+            tcount--;
+            setTimeout(counter, 1000);
+        }
+        else {
+            setTimeout(counter, 1000);
+        }
+    }
+    setTimeout(counter, 1000);
     setListener = () => {
         var btns = $('.button1');
         for (var i = 0; i < btns.length; i++) {
@@ -137,6 +154,15 @@ function WsManager() {
         $("#p2_name").html(msg.players[1].name);
         $("#p1_status").html("<img src='https://graph.facebook.com/v2.8/" + msg.players[0].id + "/picture?height=200&width=200'/>");
         $("#p2_status").html("<img src='https://graph.facebook.com/v2.8/" + msg.players[1].id + "/picture?height=200&width=200'/>");
+    }
+    loadScore = (msg) => {
+        $("#p1_name").html(msg.players[0].name + "<br>" + msg.players[0].score + "/" + msg.total);
+        $("#p2_name").html(msg.players[1].name + "<br>" + msg.players[1].score + "/" + msg.total);
+        $("#p1_status").html("<img src='https://graph.facebook.com/v2.8/" + msg.players[0].id + "/picture?height=200&width=200'/>");
+        $("#p2_status").html("<img src='https://graph.facebook.com/v2.8/" + msg.players[1].id + "/picture?height=200&width=200'/>");
+        $("#pre_status").html("比賽結束");
+        var winner = (msg.players[0].score > msg.players[1].score) ? msg.players[0].name : msg.players[1].name;
+        $("#pre_question").html(winner + "獲勝");
     }
 
 }

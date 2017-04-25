@@ -88,6 +88,15 @@ sendQuestion = (gameid) => {
             var g = gm.getGameByID(gameid);
             setTimeout(sendResult, s.time * 1000, g, g.nowquestion);
         }
+        else {
+            var game = gm.getGameByID(gameid);
+            var re = { type: "END", data: gm.getEndResult(game) };
+            for (var i = 0; i < 2; i++) {
+                re.id = i;
+                sendJson(game.players[i].ws, re);
+            }
+
+        }
 
     });
 }

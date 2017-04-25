@@ -45,10 +45,10 @@ solveQuestion = (ws, ans) => {
             if (player == null)
                 resolve(false);
             else {
-                player.result[game.nowquestion] = {
+                player.result.push({
                     ans: ans,
                     time: (new Date()).getTime()
-                };
+                });
                 game.questions[game.nowquestion].hasAns++;
                 //console.log(player.result[game.nowquestion]);
                 if (game.questions[game.nowquestion].hasAns == 2)
@@ -66,10 +66,13 @@ solveQuestion = (ws, ans) => {
 getResult = (game) => {
     var re = [];
     for (var i = 0; i < 2; i++) {
+        game.players[i].ready = false;
         var que = game.questions[game.nowquestion];
         var player_que = game.players[i].result[game.nowquestion];
-        if (player_que == null)
-            player_que = { score: 0 };
+        if (player_que == null) {
+            player_que = { score: 0, ans: "NA" };
+            game.players[i].result[game.nowquestion] = { score: 0, ans: "NA" };
+        }
         else {
 
             if (player_que.ans != que.correct)
@@ -79,15 +82,36 @@ getResult = (game) => {
                 if (lasttime <= 0)
                     player_que.score = 0;
                 else
-                    player_que.score = (lasttime > que.time / 3) ? que.score : (que.score / 3) + (que.score / 3) * lasttime / (que.time / 3);
+                    player_que.score = (lasttime > que.time * 0.8) ? que.score : (que.score * 0.4) + (que.score *0.4) * lasttime / (que.time);
             }
         }
-        re.push({ id:i, player: game.players[i].id, ans: player_que.ans, score: player_que.score });
+        re.push({ id: i, player: game.players[i].name, ans: player_que.ans, score: player_que.score });
 
-    }        
+    }
     game.nowquestion++;
-    return {players:re,ans:que.correct};
+    return { players: re, ans: que.correct };
 
+}
+getEndResult = (game) => {
+    if (game) {
+        var re = { players: [] };
+        for (var i = 0; i < 2; i++) {
+            var score = 0;
+            console.log(game.players[i].result)
+            game.players[i].result.forEach((q) => {
+                score += q.score;
+            })
+            re.players.push({ id: game.players[i].id, name: game.players[i].name, score: Math.floor(score) });
+        }
+        var total = 0;
+        game.questions.forEach((q) => {
+            total += q.score;
+        });
+        re.total = total;
+        return re;
+    }
+    else
+        return null;
 }
 getQuestion = (gameid) => {
     return new Promise((resolve, reject) => {
@@ -97,8 +121,6 @@ getQuestion = (gameid) => {
                 resolve();
             } else {
                 var wss = [game.players[0].ws, game.players[1].ws];
-                game.players[0].result = [];
-                game.players[1].result = [];
                 game.players[0].ready = false;
                 game.players[1].ready = false;
                 if (game.nowquestion < game.questions.length) {
@@ -158,6 +180,8 @@ joinGame = (ws, gameid) => {
                     game.ws.push(ws);
                     //console.log(game);
                     if (game.players.length == 2) {
+                        game.players[0].result = [];
+                        game.players[1].result = [];
                         resolve({ status: 'ok', notify: game.ws, players: game.players, todo: "notify" });
                     }
                     else
@@ -258,5 +282,6 @@ module.exports = {
     ready,
     getQuestion,
     solveQuestion,
-    getResult
+    getResult,
+    getEndResult
 }
