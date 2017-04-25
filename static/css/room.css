@@ -209,3 +209,7 @@ table {
     position: absolute;
     margin-left: 190px;
 }
+.imag{
+    max-height: 200px;
+    margin-top: -50px;
+}

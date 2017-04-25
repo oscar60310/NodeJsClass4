@@ -57,6 +57,16 @@ function WsManager() {
                 $("#score").removeClass('remove');
                 tcount = msg.time - 1;
                 setQuestion(msg.ans, msg.time);
+                if (msg.que.image) {
+                    $("#imgshow").attr('src', msg.que.image);
+                    $("#imgshow").removeClass('icon');
+                    $("#imgshow").addClass('imag');
+                }
+                else {
+                    $("#imgshow").attr('src', './pic/question.svg');
+                    $("#imgshow").addClass('icon');
+                    $("#imgshow").removeClass('imag');
+                }
                 break;
             case "RESULT":
                 $('#timeline').css('display', 'none');
@@ -81,6 +91,9 @@ function WsManager() {
                 $("#chose").addClass('remove');
                 $("#score").addClass('remove');
                 loadScore(msg.data);
+                $("#imgshow").src = './pic/question.svg';
+                $("#imgshow").addClass('icon');
+                $("#imgshow").removeClass('imag');
                 break;
         }
 
@@ -105,6 +118,7 @@ function WsManager() {
             $(btns[i]).removeClass("btn_currect");
             $(scos[i]).html("");
         }
+
         var timeline = $("#timeline");
         timeline.css('display', 'block');
         timeline.css({

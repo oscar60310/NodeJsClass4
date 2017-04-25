@@ -5,7 +5,7 @@ getQuestion = (token1, token2) => {
             id: 1,
             description: {
                 text: '采楓是不是智障?',
-                image: null
+                image: 'http://img05.tooopen.com/images/20150925/tooopen_sy_143684733881.jpg'
             },
             ans: { A: "不是", B: "是", C: "不是", D: "不是" },
             correct: "B",
