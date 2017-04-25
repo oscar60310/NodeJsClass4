@@ -31,13 +31,16 @@ createQuestions = (gameid) => {
     })
 
 }
+
 getQuestion = (gameid) => {
     return new Promise((resolve, reject) => {
         var game = getGameByID(gameid);
         if (game) {
             var wss = [game.players[0].ws, game.players[1].ws];
-            if (game.nowquestion < game.questions.length)
-                resolve({ d: wss, que: game.questions[game.nowquestion++] });
+            if (game.nowquestion < game.questions.length) {
+                game.questions[game.nowquestion].timeout = (new Date()).getTime()  +(game.questions[game.nowquestion] * 1000) + 1000;
+                resolve({ d: wss, que: game.questions[game.nowquestion] });
+            }
             else
                 resolve({ d: wss, que: null });
         }
