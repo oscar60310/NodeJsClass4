@@ -1,5 +1,6 @@
 var shortid = require('shortid');
 var axios = require('axios');
+var qm = require("./question");
 var sh
 var gamelist = [];
 cleargame = () => {
@@ -16,19 +17,13 @@ createQuestions = (gameid) => {
         var game = getGameByID(gameid);
         if (game) {
             /// Create question
-            game.questions = [{
-                id: 1,
-                description: {
-                    text: '采楓是不是智障?',
-                    image: null
-                },
-                ans: { A: "不是", B: "是", C: "不是", D: "不是" },
-                currect: "B",
-                time: 10,
-                score: 10
-            }];
-            game.nowquestion = 0;
-            setTimeout(() => resolve({ status: "ok", game }), 2000); //test
+            qm.getQuestion(game.players[0].ws.session.key, game.players[1].ws.session.key).then((q) => {
+                game.questions = q;
+                game.nowquestion = 0;
+                resolve({ status: "ok", game });
+            });
+
+
         }
         else {
             resolve({ status: "no game id" });
