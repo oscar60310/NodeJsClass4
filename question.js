@@ -19,7 +19,7 @@ getQuestion = (token1, token2) => {
             console.log(res.data.photos.data[0]);
             //question 1
             var birthday = res.data.birthday.split("/")
-            var answer = ["1/1", "2/2", "6/6", birthday[0] + "/" + birthday[1]]
+            var answer = ["01/01", "02/02", "06/06", birthday[0] + "/" + birthday[1]]
             var q1 = {
                 id: 2,
                 description: {
@@ -35,7 +35,6 @@ getQuestion = (token1, token2) => {
             //question 2 
             var photo_id = res.data.photos.data[0].id;
             axios.get('https://graph.facebook.com/v2.9/'+ photo_id +'/likes?summary=total_count',{ params: { access_token: token1} }).then((res2)=>{
-                //console.log(response.data.summary.total_count);
                 var likes_count = res2.data.summary.total_count;
                 var answer = ["58", "107", "195", likes_count];
                 console.log(photo_id);
@@ -46,8 +45,8 @@ getQuestion = (token1, token2) => {
                             text: '猜猜這張照片有幾個讚?',
                             image: res3.data.images[0].source
                         },
-                        ans: { A: answer[0], B: answer[1], C: answer[2], D: answer[3] },
-                        correct: "D",
+                        ans: { A: answer[0], B: answer[3], C: answer[2], D: answer[1] },
+                        correct: "B",
                         time: 10,
                         score: 10
                     };
