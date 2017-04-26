@@ -65,14 +65,15 @@ solveQuestion = (ws, ans) => {
 }
 getResult = (game) => {
     var re = [];
-    var add_score = 0;   
+
     for (var i = 0; i < 2; i++) {
+        var add_score = 0;
         game.players[i].ready = false;
         var que = game.questions[game.nowquestion];
         var player_que = game.players[i].result[game.nowquestion];
         if (player_que == null) {
-            player_que = { score: 0, ans: "NA"};
-            game.players[i].result[game.nowquestion] = { score: 0, ans: "NA"};
+            player_que = { score: 0, ans: "NA" };
+            game.players[i].result[game.nowquestion] = { score: 0, ans: "NA" };
         }
         else {
 
@@ -83,13 +84,13 @@ getResult = (game) => {
                 if (lasttime <= 0)
                     player_que.score = 0;
                 else
-                    player_que.score = (lasttime > que.time * 0.8) ? que.score : (que.score * 0.4) + (que.score *0.4) * lasttime / (que.time);
+                    player_que.score = (lasttime > que.time * 0.8) ? que.score : (que.score * 0.4) + (que.score * 0.4) * lasttime / (que.time);
             }
         }
         game.players[i].result.forEach((q) => {
-                add_score += q.score;
-            })
-        re.push({ id: i, player: game.players[i].name, ans: player_que.ans, score: player_que.score, add: add_score});
+            add_score += q.score;
+        })
+        re.push({ id: i, player: game.players[i].name, ans: player_que.ans, score: player_que.score, add: add_score });
 
     }
     game.nowquestion++;
@@ -101,7 +102,7 @@ getEndResult = (game) => {
         var re = { players: [] };
         for (var i = 0; i < 2; i++) {
             var score = 0;
-           // console.log(game.players[i].result)
+            // console.log(game.players[i].result)
             game.players[i].result.forEach((q) => {
                 score += q.score;
             })

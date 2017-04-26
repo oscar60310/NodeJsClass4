@@ -84,7 +84,7 @@ function WsManager() {
                     }
                     var id2 = (msg.id == 0) ? 1 : 0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
-                        changeHour(Math.floor(msg.data.players[id2].add));
+                        //changeHour(Math.floor(msg.data.players[id2].add));
                         $(scos[i]).html($(scos[i]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
                     }
                 }
