@@ -79,12 +79,12 @@ function WsManager() {
                         $(btns[i]).addClass("btn_currect");
                     }
                     if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
-                        changeHour(Math.floor(msg.data.players[msg.id].score));
+                        changeHour(Math.floor(msg.data.players[msg.id].add));
                         $(scos[i]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
                     }
                     var id2 = (msg.id == 0) ? 1 : 0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
-                        changeHour(Math.floor(msg.data.players[id2].score));
+                        changeHour(Math.floor(msg.data.players[id2].add));
                         $(scos[i]).html($(scos[i]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
                     }
                 }
