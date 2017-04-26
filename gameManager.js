@@ -97,7 +97,7 @@ getEndResult = (game) => {
         var re = { players: [] };
         for (var i = 0; i < 2; i++) {
             var score = 0;
-            console.log(game.players[i].result)
+           // console.log(game.players[i].result)
             game.players[i].result.forEach((q) => {
                 score += q.score;
             })

@@ -93,7 +93,7 @@ function WsManager() {
                 $("#chose").addClass('remove');
                 $("#score").addClass('remove');
                 loadScore(msg.data);
-                $("#imgshow").src = './pic/question.svg';
+                $("#imgshow").attr('src', './pic/question.svg');
                 $("#imgshow").addClass('icon');
                 $("#imgshow").removeClass('imag');
                 break;
