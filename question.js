@@ -10,7 +10,7 @@ getQuestion = (token1, token2) => {
                 q.id = n++;
             });
             resolve(datasort);
-        }) 
+        })
     })
 }
 questionBirthDay = (data) => {
@@ -72,27 +72,32 @@ LikeCountToQuestion = (token) => {
             if (res.data.photos) {
                 var photo_id = res.data.photos.data[Math.floor(res.data.photos.data.length * Math.random())].id;
                 axios.get('https://graph.facebook.com/v2.9/' + photo_id + '/likes?summary=total_count', { params: { access_token: token } }).then((res) => {
-                    var likes_count = res.data.summary.total_count;
-                    var answerSort = [likes_count];
-                    while (answerSort.length < 4) {
-                        var rd = randomLike(likes_count);
-                        if (likes_count != rd)
-                            answerSort.push(rd);
+                    if (res.data.summary) {
+                        var likes_count = res.data.summary.total_count;
+                        var answerSort = [likes_count];
+                        while (answerSort.length < 4) {
+                            var rd = randomLike(likes_count);
+                            if (likes_count != rd)
+                                answerSort.push(rd);
+                        }
+                        var answer = shuffle(answerSort);
+                        axios.get('https://graph.facebook.com/v2.9/' + photo_id + '?fields=images', { params: { access_token: token } }).then((res) => {
+                            var q = {
+                                description: {
+                                    text: '猜猜這張照片有幾個讚?',
+                                    image: res.data.images[0].source
+                                },
+                                ans: { A: answer[0], B: answer[3], C: answer[2], D: answer[1] },
+                                correct: choose[answer.indexOf(likes_count)],
+                                time: 10,
+                                score: 10
+                            };
+                            resolve(q);
+                        });
                     }
-                    var answer = shuffle(answerSort);
-                    axios.get('https://graph.facebook.com/v2.9/' + photo_id + '?fields=images', { params: { access_token: token } }).then((res) => {
-                        var q = {
-                            description: {
-                                text: '猜猜這張照片有幾個讚?',
-                                image: res.data.images[0].source
-                            },
-                            ans: { A: answer[0], B: answer[3], C: answer[2], D: answer[1] },
-                            correct: choose[answer.indexOf(likes_count)],
-                            time: 10,
-                            score: 10
-                        };
-                        resolve(q);
-                    });
+                    else
+                        resolve(null);
+
                 });
             }
             else {
