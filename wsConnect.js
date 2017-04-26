@@ -6,7 +6,7 @@ route = (ws, msg) => {
             if (ws.session.name)
                 sendJson(ws, { type: msg.type, status: 'ok', name: ws.session.name });
             else
-                sendJson(ws, { type: msg.type, status: 'not login', url: 'https://www.facebook.com/v2.8/dialog/oauth?client_id=' + process.env.appID + '&redirect_uri=' + process.env.redirect + '/api/code?id=' + msg.game + '&scope=user_posts,user_friends,user_birthday' });
+                sendJson(ws, { type: msg.type, status: 'not login', url: 'https://www.facebook.com/v2.8/dialog/oauth?client_id=' + process.env.appID + '&redirect_uri=' + process.env.redirect + '/api/code?id=' + msg.game + '&scope=user_posts,user_friends,user_birthday,user_photos' });
             break;
         case "CREATE":
             if (ws.session.name)
