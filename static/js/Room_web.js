@@ -71,7 +71,8 @@ function WsManager() {
             case "RESULT":
                 $('#timeline').css('display', 'none');
                 var btns = $('.button1');
-                var scos = $('.name');
+                var scos = $('.choose_score');
+                var name = $('.name');
                 for (var i = 0; i < btns.length; i++) {
                     $(btns[i]).removeClass("btn_select");
                     if ($(btns[i]).attr('choose') == msg.data.ans) {
@@ -79,12 +80,12 @@ function WsManager() {
                     }
                     if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
                         changeHour(Math.floor(msg.data.players[msg.id].score));
-                        $(scos[0]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
+                        $(scos[i]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
                     }
                     var id2 = (msg.id == 0) ? 1 : 0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
                         changeHour(Math.floor(msg.data.players[id2].score));
-                        $(scos[0]).html($(scos[0]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
+                        $(scos[i]).html($(scos[i]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
                     }
                 }
                 break;
