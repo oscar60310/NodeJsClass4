@@ -71,18 +71,20 @@ function WsManager() {
             case "RESULT":
                 $('#timeline').css('display', 'none');
                 var btns = $('.button1');
-                var scos = $('.choose_score');
+                var scos = $('.name');
                 for (var i = 0; i < btns.length; i++) {
                     $(btns[i]).removeClass("btn_select");
                     if ($(btns[i]).attr('choose') == msg.data.ans) {
                         $(btns[i]).addClass("btn_currect");
                     }
                     if ($(btns[i]).attr('choose') == msg.data.players[msg.id].ans) {
-                        $(scos[i]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
+                        changeHour(Math.floor(msg.data.players[msg.id].score));
+                        $(scos[0]).html(msg.data.players[msg.id].player + ": " + Math.floor(msg.data.players[msg.id].score));
                     }
                     var id2 = (msg.id == 0) ? 1 : 0;
                     if ($(btns[i]).attr('choose') == msg.data.players[id2].ans) {
-                        $(scos[i]).html($(scos[i]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
+                        changeHour(Math.floor(msg.data.players[id2].score));
+                        $(scos[0]).html($(scos[0]).html() + " " + msg.data.players[id2].player + ": " + Math.floor(msg.data.players[id2].score));
                     }
                 }
                 break;
@@ -199,17 +201,17 @@ var circle = document.querySelectorAll(".circle")[0];
 var mask = document.querySelectorAll(".mask")[0];
 var left = document.querySelectorAll(".left")[0];
 var right = document.querySelectorAll(".right")[0];
-var range = document.getElementById("range");
+//var range = document.getElementById("range");
 
 var hour = document.querySelectorAll("#hour")[0];
 
 var n;
-changeHour();
-range.oninput = changeHour;
 
-function changeHour() {
-    hour.innerHTML = range.value;
-    n = range.value;
+//range.oninput = changeHour;Math.floor(msg.data.players[msg.id].score)
+
+function changeHour(value) {
+    hour.innerHTML = value;
+    n = value;
     if (n <= 50) {
         left.style.webkitTransform = "rotate(" + 3.6 * n + "deg)";
         right.style.opacity = 0;
