@@ -8,8 +8,7 @@ function WsManager() {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
         self.sendJson(self.ws, {
-            type: "LOGIN",
-            game: getUrlParameter('id')
+            type: "LOGIN"
         });
 
     };

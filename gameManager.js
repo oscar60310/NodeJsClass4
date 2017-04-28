@@ -168,12 +168,7 @@ createNewGame = (ws) => {
 }
 joinGame = (ws, gameid) => {
     return new Promise((resolve) => {
-        var game = null;
-        gamelist.forEach((g) => {
-            if (g.id == gameid) {
-                game = g;
-            }
-        })
+        var game = getGameByID(gameid);
         if (game == null) {
             resolve({ status: 'id not found' });
             return;

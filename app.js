@@ -24,7 +24,6 @@ app.get('/api/code', (req, res) => {
         getUser(userdata.access_token).then((data) => {
             req.session.name = data.name;
             req.session.fbid = data.id;
-
             var url = (req.query.id != 'undefined')? '../?id=' + req.query.id : '../';
             res.redirect(url);
         });
