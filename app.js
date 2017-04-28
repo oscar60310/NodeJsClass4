@@ -6,7 +6,6 @@ var app = express();
 var WebSocket = require('ws');
 var wsc = require('./wsConnect');
 var port = process.env.port || 1337;
-//var MemoryStore = require('session-memory-store')(session); 
 var sessionParser = session({
     secret: process.env.sessionKEY,
     cookie: {
@@ -15,9 +14,7 @@ var sessionParser = session({
     resave: true,
     saveUninitialized: true
 });
-
 app.use(sessionParser);
-
 app.get('/api/code', (req, res) => {
     request('https://graph.facebook.com/v2.8/oauth/access_token?client_id=' + process.env.appID + '&redirect_uri=' + process.env.redirect + '/api/code?id=' + req.query.id + '&client_secret=' + process.env.appKEY + '&code=' + req.query.code, (error, response, body) => {
         
