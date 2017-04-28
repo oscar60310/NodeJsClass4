@@ -7,9 +7,11 @@ function WsManager() {
     self.ws.onopen = function () {
         // Web Socket is connected, send data using send()
         console.log("[ws] connected.");
+        //################# 2. 連上websocket之後，去做檢查的動作 #################
         self.sendJson(self.ws, {
             type: "LOGIN"
         });
+        //
 
     };
     self.ws.onmessage = function (evt) {
@@ -44,20 +46,24 @@ function WsManager() {
     }
     loginStatus = (msg, text, url) => {
         if (msg.status == "ok") {
+            //################# 3. 這裡是讓玩家加入遊戲 #################
             self.sendJson(self.ws, {
                 type: "JOIN",
                 game: getUrlParameter("id")
             });
+            //
         } else {
             setAlert("<a href='" + msg.url + "' class=\"btn btn-primary btn-lg\" role=button>玩家FB登入</a>");
         }
     }
     newgame = (msg) => {
         if (msg.status == "ok") {
+            //################# 7. 這裡是把自己加入遊戲 #################
             self.sendJson(self.ws, {
                 type: "JOIN",
                 game: msg.id
             });
+            //
             var gameurl = window.location.origin + "/?id=" + msg.id;
             setAlert(msg.name + "玩家，你好", "比賽連結", "<div class=\"container col-md-8 col-md-offset-2\" id=\"url\"><div class=\"input-group\"><input type=\"text\" class=\"form-control\" placeholder=\"Url\" value=\"" + gameurl + "\"><span class=\"input-group-btn\"><button class=\"btn btn-secondary\" type=\"button\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"複製\" data-delay=\"0\" onclick=\"copyURL()\"><img src=\"\.\/pic\/CopyFilled.png\"></button></span></div></div>");
         }
@@ -65,9 +71,11 @@ function WsManager() {
     checkJoin = (msg) => {
         if (msg.status != "ok") {
             setAlert("無法加入", "ID 無效，產生新的房間...", "");
+            //################# 8. 如果加入失敗的話，自己創一個房間 #################
             setTimeout(() => self.sendJson(self.ws, {
                 type: "CREATE"
             }), 1000);
+            //
         } else
             self.gid = msg.id;
     }

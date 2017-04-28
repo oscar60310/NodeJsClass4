@@ -45,6 +45,7 @@ wss.on('connection', function connection(ws) {
         var session = ws.upgradeReq.session;
         ws.session = session;
     });
+    //################# 1. 伺服器接收到'message'指令之後要做的事 #################
     ws.on('message', function incoming(data) {
         var msg = { type: null };
         try {
@@ -58,6 +59,7 @@ wss.on('connection', function connection(ws) {
         }
 
     });
+    //  
 });
 
 server.listen(port, function listening() {
